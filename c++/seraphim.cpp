@@ -29,30 +29,42 @@ int main(){
     // freopen("output.txt", "w", stdout);
     ios::sync_with_stdio(false);
     cin.tie(0);
+
     int t; cin >> t;
+
     while(t--){
-        int n; cin >> n;
-        string x; cin >> x;
-        vi v(n+1);
-        v[0] = 0;
-        for(int i = 1; i<=n; ++i){
-            v[i] = v[i-1]+(x[i-1]-'0');
-        }
-        int ind = -1;
-        int izq, der;
-        for(int i=0; i<=n+1; ++i){
-            izq = (i)-(v[i]-v[0]);
-            der = v[n]-v[i];
-            if (izq>=(i+1)/2 && der>= (n-i+1)/2){
-                int mi = abs(n-2*i);
-                if (mi < abs(n-2*ind)){
-                    ind = i;
+        int n, m; cin >> n >> m;
+
+        vi va(n); for (int i = 0; i < n; i++) { cin >> va[i]; }
+        vi vb(n); for (int i = 0; i < n; i++) { cin >> vb[i]; }
+
+        ll ans = 1e18;
+        ll ansaux = 0;
+        ll aux = 0;
+        for (int i = n-1; i >= 0; --i){
+            int a = va[i];
+            int b = vb[i];
+
+            if(i > m-1){
+                if(a >= b){
+                    aux += b;
+                } else {
+                    ansaux += aux;
+                    ansaux += a;
+                    aux = 0;
                 }
+
+            } else {
+                ans = min(ans, ansaux + aux + a);
+                aux += b;
             }
+
+            //cout << ansaux << tl << aux << el;
+
         }
 
-        cout << ind << el;
-
+        cout << ans << el;
     }
+
     return 0;
 }
